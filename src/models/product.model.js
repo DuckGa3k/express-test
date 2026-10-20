@@ -23,6 +23,23 @@ class ProductModel {
         const [rows] = await dbPool.execute(query, [id]);
         return rows;
     } 
+    static async createProduct(data){
+        console.log(data);
+        const query = "INSERT INTO mat_hang (ten_hang, gia, so_luong, ma_loai, ma_ncc) ";
+        + "VALUES (?, ?, ?, ?, ?)";
+        const [result] = await dbPool.execute(query, [data.ten_hang, data.gia, data.so_luong, data.ma_loai, data.ma_ncc]);
+        return result.insertId;
+    }
+    static async updateProduct(id, data){
+        const query = "UPDATE mat_hang SET ten_hang = ?, gia = ?, so_luong = ?, ma_loai = ?, ma_ncc = ? WHERE ma_hang = ?";
+        const [result] = await dbPool.execute(query, [data.ten_hang, data.gia, data.so_luong, data.ma_loai, data.ma_ncc, id]);
+        return result.affectedRows;
+    }
+    static async deleteProduct(id){
+        const query = "DELETE FROM mat_hang WHERE ma_hang = ?";
+        const [result] = await dbPool.execute(query, [id]);
+        return result.affectedRows;
+    }
 }
 
 module.exports = ProductModel;
